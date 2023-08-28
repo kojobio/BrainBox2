@@ -7,6 +7,7 @@
     <title>Advanced Software Engineering</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="courseVid.css" />
+    <link rel="stylesheet" href="/quiz.css">
     
 
 
@@ -26,7 +27,7 @@
       <div class="main__video">
         <div class="video">
           <video
-            src=""
+            src="/videos/BGBTech_ Major Engine Architecture.mp4"
             loop
             controls
             loading="lazy"
@@ -199,6 +200,21 @@
           <h3 class="title">01. Video title goes in here</h3>
         </div> -->
       </div>
+
+
+      <section id="resources-section">
+        <h2>Resources</h2>
+        <p>Explore additional learning resources:</p>
+        <button id="download-button"><a href="https://example.com/resources.pdf" download>Download Resources</a></button>
+    </section>
+    <section id="quiz-section">
+        <h2>Quiz</h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz">Submit Quiz</button>
+        <div id="quiz-feedback"></div>
+    </section>
+
+
     </div>
     <script src="/js/app.js"></script>
     <script>// Get the video tabs and main video player elements
@@ -214,6 +230,107 @@
           // Update the source of the main video player
           mainVideoPlayer.src = videoSrc;
         });
+      });
+    </script>
+    <script>
+      const quizQuestions = [
+          {
+              question: "What is the main goal of software design patterns?",
+              options: [
+                  "To create a set of rules for writing code.",
+                  "To optimize code execution speed.",
+                  "To provide reusable solutions to common software design problems.",
+                  "To generate automated test cases."
+              ],
+              correctAnswer: 2
+          },
+          {
+              question: "Which software development methodology emphasizes incremental and iterative development?",
+              options: ["Waterfall", "Agile", "V-Model", "Spiral"],
+              correctAnswer: 1
+          },
+          {
+              question: "What does the term 'refactoring' mean in software engineering?",
+              options: [
+                  "Rewriting the entire codebase from scratch.",
+                  "Adding new features to existing software.",
+                  "Fixing bugs and errors in the code.",
+                  "Restructuring and improving the code without changing its external behavior."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is 'Continuous Integration' in software development?",
+              options: [
+                  "A technique for merging unrelated code branches.",
+                  "A practice of continuously releasing new software versions.",
+                  "Automatically testing and integrating code changes frequently.",
+                  "A process of documenting software requirements."
+              ],
+              correctAnswer: 2
+          },
+          {
+              question: "What is the primary purpose of a code review in software development?",
+              options: [
+                  "To fix critical bugs in the code.",
+                  "To ensure that code follows company coding guidelines.",
+                  "To test the software's user interface.",
+                  "To simulate real-world user interactions."
+              ],
+              correctAnswer: 1
+          }
+      ];
+  
+      const quizContainer = document.getElementById("quiz-questions");
+      quizQuestions.forEach((questionObj, index) => {
+          const questionElement = document.createElement("div");
+          questionElement.innerHTML = `
+              <p>${index + 1}. ${questionObj.question}</p>
+              <ul>
+                  ${questionObj.options.map((option, optionIndex) => `
+                      <li>
+                          <label>
+                              <input type="radio" name="question${index}" value="${optionIndex}">
+                              ${option}
+                          </label>
+                      </li>
+                  `).join("")}
+              </ul>
+              <p class="question-feedback"></p>
+          `;
+          quizContainer.appendChild(questionElement);
+      });
+  
+      const submitButton = document.getElementById("submit-quiz");
+      submitButton.addEventListener("click", () => {
+          const userAnswers = [];
+  
+          quizQuestions.forEach((questionObj, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              const feedbackElement = document.querySelector(`#quiz-questions div:nth-child(${index + 1}) .question-feedback`);
+  
+              if (selectedOption) {
+                  const selectedValue = parseInt(selectedOption.value);
+                  userAnswers.push(selectedValue);
+  
+                  if (selectedValue === questionObj.correctAnswer) {
+                      feedbackElement.textContent = "Correct";
+                      feedbackElement.classList.add("correct-answer");
+                  } else {
+                      feedbackElement.innerHTML = `Incorrect. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                      feedbackElement.classList.add("incorrect-answer");
+                  }
+              } else {
+                  feedbackElement.innerHTML = `You didn't select an answer. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                  feedbackElement.classList.add("incorrect-answer");
+              }
+          });
+  
+          const feedbackContainer = document.getElementById("quiz-feedback");
+          feedbackContainer.innerHTML = `
+              <h3>Your Quiz Result</h3>
+              <p>You submitted the quiz.</p>
+          `;
       });
     </script>
   </body>

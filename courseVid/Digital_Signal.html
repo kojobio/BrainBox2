@@ -7,6 +7,7 @@
     <title>Digital Signal Processing</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="courseVid.css" />
+    <link rel="stylesheet" href="/quiz.css">
     
 
 
@@ -199,6 +200,20 @@
           <h3 class="title">01. Video title goes in here</h3>
         </div> -->
       </div>
+
+      <section id="resources-section">
+        <h2>Resources</h2>
+        <p>Explore additional learning resources:</p>
+        <button id="download-button"><a href="https://example.com/resources.pdf" download>Download Resources</a></button>
+    </section>
+    <section id="quiz-section">
+        <h2>Quiz</h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz">Submit Quiz</button>
+        <div id="quiz-feedback"></div>
+    </section>
+
+
     </div>
     <script src="/js/app.js"></script>
     <script>// Get the video tabs and main video player elements
@@ -214,6 +229,112 @@
           // Update the source of the main video player
           mainVideoPlayer.src = videoSrc;
         });
+      });
+    </script>
+    <script>
+      const quizQuestions = [
+          {
+              question: "What is Digital Signal Processing (DSP)?",
+              options: [
+                  "A technique to transmit data over the internet.",
+                  "A method to convert analog signals to digital format.",
+                  "The study of processing digital images and videos.",
+                  "A field that deals with the manipulation of digital signals for various applications."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is the main benefit of using the Fast Fourier Transform (FFT) in DSP?",
+              options: [
+                  "It reduces the size of digital signals.",
+                  "It enhances the resolution of images.",
+                  "It speeds up the computation of the Discrete Fourier Transform.",
+                  "It eliminates noise from audio signals."
+              ],
+              correctAnswer: 2
+          },
+          {
+              question: "What is the Nyquist-Shannon sampling theorem in DSP?",
+              options: [
+                  "A theorem about the properties of prime numbers.",
+                  "A theorem about the accuracy of floating-point arithmetic.",
+                  "A theorem about the maximum speed of digital processors.",
+                  "A theorem that states how frequently a signal should be sampled to be accurately represented in digital form."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is a 'filter' in the context of Digital Signal Processing?",
+              options: [
+                  "A device used to convert analog signals to digital signals.",
+                  "A technique to compress digital images.",
+                  "A mathematical operation to amplify signals.",
+                  "A system that processes a signal to modify its properties or extract information."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is the primary application of Digital Signal Processing?",
+              options: [
+                  "Analyzing and modifying digital media such as images and videos.",
+                  "Storing and retrieving data in databases.",
+                  "Transmitting analog signals over long distances.",
+                  "Generating random numbers for cryptographic applications."
+              ],
+              correctAnswer: 0
+          }
+      ];
+  
+      const quizContainer = document.getElementById("quiz-questions");
+      quizQuestions.forEach((questionObj, index) => {
+          const questionElement = document.createElement("div");
+          questionElement.innerHTML = `
+              <p>${index + 1}. ${questionObj.question}</p>
+              <ul>
+                  ${questionObj.options.map((option, optionIndex) => `
+                      <li>
+                          <label>
+                              <input type="radio" name="question${index}" value="${optionIndex}">
+                              ${option}
+                          </label>
+                      </li>
+                  `).join("")}
+              </ul>
+              <p class="question-feedback"></p>
+          `;
+          quizContainer.appendChild(questionElement);
+      });
+  
+      const submitButton = document.getElementById("submit-quiz");
+      submitButton.addEventListener("click", () => {
+          const userAnswers = [];
+  
+          quizQuestions.forEach((questionObj, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              const feedbackElement = document.querySelector(`#quiz-questions div:nth-child(${index + 1}) .question-feedback`);
+  
+              if (selectedOption) {
+                  const selectedValue = parseInt(selectedOption.value);
+                  userAnswers.push(selectedValue);
+  
+                  if (selectedValue === questionObj.correctAnswer) {
+                      feedbackElement.textContent = "Correct";
+                      feedbackElement.classList.add("correct-answer");
+                  } else {
+                      feedbackElement.innerHTML = `Incorrect. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                      feedbackElement.classList.add("incorrect-answer");
+                  }
+              } else {
+                  feedbackElement.innerHTML = `You didn't select an answer. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                  feedbackElement.classList.add("incorrect-answer");
+              }
+          });
+  
+          const feedbackContainer = document.getElementById("quiz-feedback");
+          feedbackContainer.innerHTML = `
+              <h3>Your Quiz Result</h3>
+              <p>You submitted the quiz.</p>
+          `;
       });
     </script>
   </body>

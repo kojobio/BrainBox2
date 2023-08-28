@@ -7,6 +7,7 @@
     <title>Data Mining and Warehousing</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="courseVid.css" />
+    <link rel="stylesheet" href="/quiz.css">
     
 
 
@@ -26,7 +27,7 @@
       <div class="main__video">
         <div class="video">
           <video
-            src=""
+            src="/videos/C++ Game Engine [SFML _ Box2D _ Lua].mp4"
             loop
             controls
             loading="lazy"
@@ -199,6 +200,20 @@
           <h3 class="title">01. Video title goes in here</h3>
         </div> -->
       </div>
+
+      <section id="resources-section">
+        <h2>Resources</h2>
+        <p>Explore additional learning resources:</p>
+        <button id="download-button"><a href="https://example.com/resources.pdf" download>Download Resources</a></button>
+    </section>
+    <section id="quiz-section">
+        <h2>Quiz</h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz">Submit Quiz</button>
+        <div id="quiz-feedback"></div>
+    </section>
+
+
     </div>
     <script src="/js/app.js"></script>
     <script>// Get the video tabs and main video player elements
@@ -214,6 +229,112 @@
           // Update the source of the main video player
           mainVideoPlayer.src = videoSrc;
         });
+      });
+    </script>
+    <script>
+      const quizQuestions = [
+          {
+              question: "What is Data Mining?",
+              options: [
+                  "The process of storing data in a structured format.",
+                  "The process of cleaning and preparing data for analysis.",
+                  "The process of discovering hidden patterns and information from large datasets.",
+                  "The process of visualizing data using graphs and charts."
+              ],
+              correctAnswer: 2
+          },
+          {
+              question: "What is a 'dimension' in the context of Data Warehousing?",
+              options: [
+                  "A measure of the quality of data.",
+                  "A type of database table.",
+                  "A way to represent hierarchical relationships in data.",
+                  "A characteristic or attribute that provides context to data."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is Association Rule Mining in Data Mining?",
+              options: [
+                  "Finding the optimal layout of data in a database.",
+                  "Discovering patterns where certain events are linked.",
+                  "Finding the shortest path between nodes in a graph.",
+                  "Organizing data into a star schema in a data warehouse."
+              ],
+              correctAnswer: 1
+          },
+          {
+              question: "What is the primary goal of Data Warehousing?",
+              options: [
+                  "To perform data analysis using complex statistical techniques.",
+                  "To store and manage data for operational purposes.",
+                  "To automate data entry and retrieval processes.",
+                  "To provide a centralized repository of data for reporting and analysis."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What does OLAP stand for in the context of Data Warehousing?",
+              options: [
+                  "Online Learning and Processing",
+                  "Optimal Logic and Analysis Platform",
+                  "Online Analytical Processing",
+                  "Operational Language and Automation Protocol"
+              ],
+              correctAnswer: 2
+          }
+      ];
+  
+      const quizContainer = document.getElementById("quiz-questions");
+      quizQuestions.forEach((questionObj, index) => {
+          const questionElement = document.createElement("div");
+          questionElement.innerHTML = `
+              <p>${index + 1}. ${questionObj.question}</p>
+              <ul>
+                  ${questionObj.options.map((option, optionIndex) => `
+                      <li>
+                          <label>
+                              <input type="radio" name="question${index}" value="${optionIndex}">
+                              ${option}
+                          </label>
+                      </li>
+                  `).join("")}
+              </ul>
+              <p class="question-feedback"></p>
+          `;
+          quizContainer.appendChild(questionElement);
+      });
+  
+      const submitButton = document.getElementById("submit-quiz");
+      submitButton.addEventListener("click", () => {
+          const userAnswers = [];
+  
+          quizQuestions.forEach((questionObj, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              const feedbackElement = document.querySelector(`#quiz-questions div:nth-child(${index + 1}) .question-feedback`);
+  
+              if (selectedOption) {
+                  const selectedValue = parseInt(selectedOption.value);
+                  userAnswers.push(selectedValue);
+  
+                  if (selectedValue === questionObj.correctAnswer) {
+                      feedbackElement.textContent = "Correct";
+                      feedbackElement.classList.add("correct-answer");
+                  } else {
+                      feedbackElement.innerHTML = `Incorrect. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                      feedbackElement.classList.add("incorrect-answer");
+                  }
+              } else {
+                  feedbackElement.innerHTML = `You didn't select an answer. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                  feedbackElement.classList.add("incorrect-answer");
+              }
+          });
+  
+          const feedbackContainer = document.getElementById("quiz-feedback");
+          feedbackContainer.innerHTML = `
+              <h3>Your Quiz Result</h3>
+              <p>You submitted the quiz.</p>
+          `;
       });
     </script>
   </body>

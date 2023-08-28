@@ -7,6 +7,7 @@
     <title>Play and Games</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="courseVid.css" />
+    <link rel="stylesheet" href="/quiz.css">
     
 
 
@@ -26,7 +27,7 @@
       <div class="main__video">
         <div class="video">
           <video
-            src=""
+            src="/videos/BGBTech_ Major Engine Architecture.mp4"
             loop
             controls
             loading="lazy"
@@ -199,6 +200,20 @@
           <h3 class="title">01. Video title goes in here</h3>
         </div> -->
       </div>
+      <section id="resources-section">
+        <h2>Resources</h2>
+        <p>Explore additional learning resources:</p>
+        <button id="download-button"><a href="https://example.com/resources.pdf" download>Download Resources</a></button>
+    </section>
+    <section id="quiz-section">
+        <h2>Quiz</h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz">Submit Quiz</button>
+        <div id="quiz-feedback"></div>
+    </section>
+
+
+
     </div>
     <script src="/js/app.js"></script>
     <script>// Get the video tabs and main video player elements
@@ -214,6 +229,112 @@
           // Update the source of the main video player
           mainVideoPlayer.src = videoSrc;
         });
+      });
+    </script>
+    <script>
+      const quizQuestions = [
+          {
+              question: "What are Play and Games?",
+              options: [
+                  "Activities that are purely for entertainment.",
+                  "Only physical activities with no mental involvement.",
+                  "Activities with a single correct outcome.",
+                  "Structured activities with rules and goals, often involving interaction and challenge."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is the difference between 'play' and 'game'?",
+              options: [
+                  "There is no difference; the terms are interchangeable.",
+                  "Play involves physical activities, while games involve mental activities.",
+                  "Games are competitive, while play is cooperative.",
+                  "Play is open-ended and creative, while games have rules and goals."
+              ],
+              correctAnswer: 3
+          },
+          {
+              question: "What is the concept of 'ludology'?",
+              options: [
+                  "The study of puzzles and riddles in games.",
+                  "The study of the design and mechanics of games.",
+                  "The study of literary elements in video games.",
+                  "The study of visual aesthetics in games."
+              ],
+              correctAnswer: 1
+          },
+          {
+              question: "What is 'game mechanics'?",
+              options: [
+                  "The software code that powers video games.",
+                  "The physical components of board games.",
+                  "The rules and systems that define how a game operates and how players interact.",
+                  "The graphics and animations used in video games."
+              ],
+              correctAnswer: 2
+          },
+          {
+              question: "What is the role of 'emergent gameplay'?",
+              options: [
+                  "To make games more difficult for players.",
+                  "To create unpredictable outcomes in games.",
+                  "To provide hints and tips to players.",
+                  "To guide players through a linear storyline."
+              ],
+              correctAnswer: 1
+          }
+      ];
+  
+      const quizContainer = document.getElementById("quiz-questions");
+      quizQuestions.forEach((questionObj, index) => {
+          const questionElement = document.createElement("div");
+          questionElement.innerHTML = `
+              <p>${index + 1}. ${questionObj.question}</p>
+              <ul>
+                  ${questionObj.options.map((option, optionIndex) => `
+                      <li>
+                          <label>
+                              <input type="radio" name="question${index}" value="${optionIndex}">
+                              ${option}
+                          </label>
+                      </li>
+                  `).join("")}
+              </ul>
+              <p class="question-feedback"></p>
+          `;
+          quizContainer.appendChild(questionElement);
+      });
+  
+      const submitButton = document.getElementById("submit-quiz");
+      submitButton.addEventListener("click", () => {
+          const userAnswers = [];
+  
+          quizQuestions.forEach((questionObj, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              const feedbackElement = document.querySelector(`#quiz-questions div:nth-child(${index + 1}) .question-feedback`);
+  
+              if (selectedOption) {
+                  const selectedValue = parseInt(selectedOption.value);
+                  userAnswers.push(selectedValue);
+  
+                  if (selectedValue === questionObj.correctAnswer) {
+                      feedbackElement.textContent = "Correct";
+                      feedbackElement.classList.add("correct-answer");
+                  } else {
+                      feedbackElement.innerHTML = `Incorrect. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                      feedbackElement.classList.add("incorrect-answer");
+                  }
+              } else {
+                  feedbackElement.innerHTML = `You didn't select an answer. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                  feedbackElement.classList.add("incorrect-answer");
+              }
+          });
+  
+          const feedbackContainer = document.getElementById("quiz-feedback");
+          feedbackContainer.innerHTML = `
+              <h3>Your Quiz Result</h3>
+              <p>You submitted the quiz.</p>
+          `;
       });
     </script>
   </body>

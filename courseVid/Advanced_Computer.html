@@ -7,6 +7,7 @@
     <title>Advanced Computer Networks</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="courseVid.css" />
+    <link rel="stylesheet" href="/quiz.css">
     
 
 
@@ -26,7 +27,7 @@
       <div class="main__video">
         <div class="video">
           <video
-            src=""
+            src="/videos/How Computers Communicate in a Network _ Google IT Support Certificate.mp4"
             loop
             controls
             loading="lazy"
@@ -197,8 +198,22 @@
             loading="lazy"
           ></video>
           <h3 class="title">01. Video title goes in here</h3>
-        </div>
-      </div> -->
+        </div> -->
+      </div> 
+
+      <section id="resources-section">
+        <h2>Resources</h2>
+        <p>Explore additional learning resources:</p>
+        <button id="download-button"><a href="https://example.com/resources.pdf" download>Download Resources</a></button>
+    </section>
+    <section id="quiz-section">
+        <h2>Quiz</h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz">Submit Quiz</button>
+        <div id="quiz-feedback"></div>
+    </section>
+
+
     </div>
     <script src="/js/app.js"></script>
     <script>// Get the video tabs and main video player elements
@@ -214,6 +229,102 @@
           // Update the source of the main video player
           mainVideoPlayer.src = videoSrc;
         });
+      });
+    </script>
+    <script>
+      const quizQuestions = [
+          {
+              question: "What is the purpose of a MAC address in computer networking?",
+              options: [
+                  "To uniquely identify a device on the internet.",
+                  "To identify the manufacturer of a network device.",
+                  "To manage IP addresses in a network.",
+                  "To provide encryption for data transmission."
+              ],
+              correctAnswer: 0
+          },
+          {
+              question: "Which network topology provides fault tolerance and redundancy?",
+              options: ["Bus topology", "Star topology", "Ring topology", "Mesh topology"],
+              correctAnswer: 3
+          },
+          {
+              question: "What is the role of ARP (Address Resolution Protocol) in IP networking?",
+              options: [
+                  "To convert a URL into an IP address.",
+                  "To resolve an IP address to a MAC address.",
+                  "To establish a secure connection between two devices.",
+                  "To route data packets across the network."
+              ],
+              correctAnswer: 1
+          },
+          {
+              question: "Which protocol is used for securely accessing a remote server?",
+              options: ["HTTP", "FTP", "SSH", "SMTP"],
+              correctAnswer: 2
+          },
+          {
+              question: "What is the primary function of a router in a computer network?",
+              options: [
+                  "To connect devices within the same local network.",
+                  "To transmit data over long distances using radio waves.",
+                  "To filter and forward data packets between different networks.",
+                  "To provide electrical power to network devices."
+              ],
+              correctAnswer: 2
+          }
+      ];
+  
+      const quizContainer = document.getElementById("quiz-questions");
+      quizQuestions.forEach((questionObj, index) => {
+          const questionElement = document.createElement("div");
+          questionElement.innerHTML = `
+              <p>${index + 1}. ${questionObj.question}</p>
+              <ul>
+                  ${questionObj.options.map((option, optionIndex) => `
+                      <li>
+                          <label>
+                              <input type="radio" name="question${index}" value="${optionIndex}">
+                              ${option}
+                          </label>
+                      </li>
+                  `).join("")}
+              </ul>
+              <p class="question-feedback"></p>
+          `;
+          quizContainer.appendChild(questionElement);
+      });
+  
+      const submitButton = document.getElementById("submit-quiz");
+      submitButton.addEventListener("click", () => {
+          const userAnswers = [];
+  
+          quizQuestions.forEach((questionObj, index) => {
+              const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+              const feedbackElement = document.querySelector(`#quiz-questions div:nth-child(${index + 1}) .question-feedback`);
+  
+              if (selectedOption) {
+                  const selectedValue = parseInt(selectedOption.value);
+                  userAnswers.push(selectedValue);
+  
+                  if (selectedValue === questionObj.correctAnswer) {
+                      feedbackElement.textContent = "Correct";
+                      feedbackElement.classList.add("correct-answer");
+                  } else {
+                      feedbackElement.innerHTML = `Incorrect. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                      feedbackElement.classList.add("incorrect-answer");
+                  }
+              } else {
+                  feedbackElement.innerHTML = `You didn't select an answer. The correct answer is: <span class="correct-answer">${questionObj.options[questionObj.correctAnswer]}</span>`;
+                  feedbackElement.classList.add("incorrect-answer");
+              }
+          });
+  
+          const feedbackContainer = document.getElementById("quiz-feedback");
+          feedbackContainer.innerHTML = `
+              <h3>Your Quiz Result</h3>
+              <p>You submitted the quiz.</p>
+          `;
       });
     </script>
   </body>
