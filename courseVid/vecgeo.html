@@ -201,5 +201,20 @@
       </div>
     </div>
     <script src="/js/app.js"></script>
+    <script>// Get the video tabs and main video player elements
+      const videoTabs = document.querySelectorAll('.video__list .vid');
+      const mainVideoPlayer = document.getElementById('vid__player');
+      
+      // Add click event listeners to the video tabs
+      videoTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          // Get the source of the clicked video tab
+          const videoSrc = tab.querySelector('video').src;
+          
+          // Update the source of the main video player
+          mainVideoPlayer.src = videoSrc;
+        });
+      });
+    </script>
   </body>
 </html>

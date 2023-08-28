@@ -26,7 +26,7 @@
       <div class="main__video">
         <div class="video">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src=""
             loop
             controls
             loading="lazy"
@@ -38,7 +38,7 @@
       <div class="video__list" id="main__vid">
         <div class="vid active">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/Database Management System Project Basics.mp4"
             muted
             loop
             loading="lazy"
@@ -47,7 +47,7 @@
         </div>
         <div class="vid">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/Project Background and Identifying Entities _ DBMS Project Report with Sample Project _ Part 1.mp4"
             muted
             loop
             loading="lazy"
@@ -56,7 +56,7 @@
         </div>
         <div class="vid">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/ER Diagram _ DBMS Project Report with Sample Project _ Part 2A.mp4"
             muted
             loop
             loading="lazy"
@@ -65,7 +65,7 @@
         </div>
         <div class="vid">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/Drawing ER Diagram in Google Docs _ DBMS Project Report with Sample Project _ Part 2B.mp4"
             muted
             loop
             loading="lazy"
@@ -74,7 +74,7 @@
         </div>
         <div class="vid">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/Mapping ER Model to Relational Model _ DBMS Project Report with Sample Project _ Part 3.mp4"
             muted
             loop
             loading="lazy"
@@ -83,7 +83,7 @@
         </div>
         <div class="vid">
           <video
-            src="https://drive.google.com/file/d/1xHrEKe8bpFzmwsLoiiYdihjRs3HXYmQ8/view?usp=sharing"
+            src="/videos/MySQL Implementation _ DBMS Project Report with Sample Project _ Part 4.mp4"
             muted
             loop
             loading="lazy"
@@ -201,5 +201,20 @@
       </div>
     </div>
     <script src="/js/app.js"></script>
+    <script>// Get the video tabs and main video player elements
+      const videoTabs = document.querySelectorAll('.video__list .vid');
+      const mainVideoPlayer = document.getElementById('vid__player');
+      
+      // Add click event listeners to the video tabs
+      videoTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          // Get the source of the clicked video tab
+          const videoSrc = tab.querySelector('video').src;
+          
+          // Update the source of the main video player
+          mainVideoPlayer.src = videoSrc;
+        });
+      });
+    </script>
   </body>
 </html>
